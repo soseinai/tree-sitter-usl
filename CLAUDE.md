@@ -4,11 +4,12 @@
 
 ```sh
 npm install              # install dependencies (includes tree-sitter-cli)
-npx tree-sitter generate # regenerate parser from grammar.js
-npx tree-sitter test     # run all tests
-npx tree-sitter parse <file.usl>  # parse a file
-make                     # build C shared/static libraries
-make clean               # remove build artifacts
+just generate            # regenerate parser from grammar.js
+just test                # run all tests (also regenerates)
+just parse <file.usl>    # parse a file
+just build               # build C shared/static libraries into dist/
+just bindings            # build all language bindings
+just clean               # remove build artifacts
 ```
 
 ## Project Structure

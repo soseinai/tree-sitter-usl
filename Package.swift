@@ -12,7 +12,7 @@ let package = Package(
                 path: ".",
                 exclude: [
                     "Cargo.toml",
-                    "Makefile",
+                    "justfile",
                     "binding.gyp",
                     "bindings/c",
                     "bindings/go",

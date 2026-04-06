@@ -37,13 +37,13 @@ npm install
 After editing `grammar.js`, regenerate the parser:
 
 ```sh
-npx tree-sitter generate
+just generate
 ```
 
 ### Run tests
 
 ```sh
-npx tree-sitter test
+just test
 ```
 
 Test cases are in `test/corpus/`.
@@ -51,19 +51,25 @@ Test cases are in `test/corpus/`.
 ### Parse a file
 
 ```sh
-npx tree-sitter parse example.usl
+just parse example.usl
 ```
 
 ### Build the C library
 
 ```sh
-make
+just build
+```
+
+### Build all language bindings
+
+```sh
+just bindings
 ```
 
 ### Clean build artifacts
 
 ```sh
-make clean
+just clean
 ```
 
 ## Project Structure

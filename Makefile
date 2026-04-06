@@ -4,8 +4,6 @@ LANGUAGE_NAME := tree-sitter-usl
 
 # repository
 SRC_DIR := src
-BUILD_DIR := build
-DIST_DIR := dist
 
 PARSER_REPO_URL := $(shell git -C $(SRC_DIR) remote get-url origin 2>/dev/null)
 
@@ -32,7 +30,7 @@ PCLIBDIR ?= $(LIBDIR)/pkgconfig
 # source/object files
 PARSER := $(SRC_DIR)/parser.c
 EXTRAS := $(filter-out $(PARSER),$(wildcard $(SRC_DIR)/*.c))
-OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(PARSER) $(EXTRAS))
+OBJS := $(patsubst %.c,%.o,$(PARSER) $(EXTRAS))
 
 # flags
 ARFLAGS ?= rcs
@@ -64,21 +62,18 @@ ifneq ($(filter $(shell uname),FreeBSD NetBSD DragonFly),)
 	PCLIBDIR := $(PREFIX)/libdata/pkgconfig
 endif
 
-all: $(DIST_DIR)/lib$(LANGUAGE_NAME).a $(DIST_DIR)/lib$(LANGUAGE_NAME).$(SOEXT) $(DIST_DIR)/$(LANGUAGE_NAME).pc
+all: lib$(LANGUAGE_NAME).a lib$(LANGUAGE_NAME).$(SOEXT) $(LANGUAGE_NAME).pc
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(DIST_DIR)/lib$(LANGUAGE_NAME).a: $(OBJS) | $(DIST_DIR)
+lib$(LANGUAGE_NAME).a: $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(DIST_DIR)/lib$(LANGUAGE_NAME).$(SOEXT): $(OBJS) | $(DIST_DIR)
+lib$(LANGUAGE_NAME).$(SOEXT): $(OBJS)
 	$(CC) $(LDFLAGS) $(LINKSHARED) $^ $(LDLIBS) -o $@
 ifneq ($(STRIP),)
 	$(STRIP) $@
 endif
 
-$(DIST_DIR)/$(LANGUAGE_NAME).pc: bindings/c/$(LANGUAGE_NAME).pc.in | $(DIST_DIR)
+$(LANGUAGE_NAME).pc: bindings/c/$(LANGUAGE_NAME).pc.in
 	sed  -e 's|@URL@|$(PARSER_URL)|' \
 		-e 's|@VERSION@|$(VERSION)|' \
 		-e 's|@LIBDIR@|$(LIBDIR)|' \
@@ -91,15 +86,12 @@ $(DIST_DIR)/$(LANGUAGE_NAME).pc: bindings/c/$(LANGUAGE_NAME).pc.in | $(DIST_DIR)
 $(PARSER): $(SRC_DIR)/grammar.json
 	$(TS) generate --no-bindings $^
 
-$(BUILD_DIR) $(DIST_DIR):
-	mkdir -p $@
-
 install: all
 	install -d '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter '$(DESTDIR)$(PCLIBDIR)' '$(DESTDIR)$(LIBDIR)'
 	install -m644 bindings/c/$(LANGUAGE_NAME).h '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/$(LANGUAGE_NAME).h
-	install -m644 $(DIST_DIR)/$(LANGUAGE_NAME).pc '$(DESTDIR)$(PCLIBDIR)'/$(LANGUAGE_NAME).pc
-	install -m644 $(DIST_DIR)/lib$(LANGUAGE_NAME).a '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).a
-	install -m755 $(DIST_DIR)/lib$(LANGUAGE_NAME).$(SOEXT) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER)
+	install -m644 $(LANGUAGE_NAME).pc '$(DESTDIR)$(PCLIBDIR)'/$(LANGUAGE_NAME).pc
+	install -m644 lib$(LANGUAGE_NAME).a '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).a
+	install -m755 lib$(LANGUAGE_NAME).$(SOEXT) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER)
 	ln -sf lib$(LANGUAGE_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR)
 	ln -sf lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXT)
 
@@ -112,7 +104,7 @@ uninstall:
 		'$(DESTDIR)$(PCLIBDIR)'/$(LANGUAGE_NAME).pc
 
 clean:
-	$(RM) -r $(BUILD_DIR) $(DIST_DIR)
+	$(RM) $(OBJS) $(LANGUAGE_NAME).pc lib$(LANGUAGE_NAME).a lib$(LANGUAGE_NAME).$(SOEXT)
 
 test:
 	$(TS) test
