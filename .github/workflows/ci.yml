@@ -3,19 +3,8 @@ name: CI
 on:
   push:
     branches: [main]
-    paths:
-      - grammar.js
-      - src/**
-      - test/**
-      - queries/**
-      - bindings/**
   pull_request:
-    paths:
-      - grammar.js
-      - src/**
-      - test/**
-      - queries/**
-      - bindings/**
+  workflow_dispatch:
 
 jobs:
   test:
