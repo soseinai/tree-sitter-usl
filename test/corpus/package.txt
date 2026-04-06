@@ -1,0 +1,30 @@
+================
+Package declaration
+================
+
+package myapp
+
+---
+
+(source_file
+  (package_declaration
+    (identifier)))
+
+================
+Package with extern uses
+================
+
+package myapp
+
+extern uses auth-sdk
+extern uses stripe-sdk
+
+---
+
+(source_file
+  (package_declaration
+    (identifier))
+  (extern_uses
+    (identifier))
+  (extern_uses
+    (identifier)))

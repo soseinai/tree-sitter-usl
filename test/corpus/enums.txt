@@ -1,0 +1,61 @@
+================
+Simple enum
+================
+
+enum Role
+  Admin
+  Member
+  Guest
+
+---
+
+(source_file
+  (enum_declaration
+    (identifier)
+    (enum_variant (identifier))
+    (enum_variant (identifier))
+    (enum_variant (identifier))))
+
+================
+Enum with associated data
+================
+
+enum Shape
+  Circle(radius: Float)
+  Rect(width: Float, height: Float)
+  Point
+
+---
+
+(source_file
+  (enum_declaration
+    (identifier)
+    (enum_variant
+      (identifier)
+      (field (identifier) (qualified_name (identifier))))
+    (enum_variant
+      (identifier)
+      (field (identifier) (qualified_name (identifier)))
+      (field (identifier) (qualified_name (identifier))))
+    (enum_variant (identifier))))
+
+================
+Generic enum
+================
+
+enum Result<T, E>
+  Ok(T)
+  Err(E)
+
+---
+
+(source_file
+  (enum_declaration
+    (identifier)
+    (type_parameters (identifier) (identifier))
+    (enum_variant
+      (identifier)
+      (qualified_name (identifier)))
+    (enum_variant
+      (identifier)
+      (qualified_name (identifier)))))

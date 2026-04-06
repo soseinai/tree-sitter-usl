@@ -1,0 +1,11 @@
+# Rust artifacts
+target/
+
+# Build output
+/build/
+
+# Grammar volatiles
+*.wasm
+
+# Agents
+.claude/

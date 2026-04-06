@@ -1,0 +1,42 @@
+================
+Type alias simple
+================
+
+type UserId = String
+
+---
+
+(source_file
+  (type_alias
+    (identifier)
+    (qualified_name (identifier))))
+
+================
+Type alias function type
+================
+
+type Handler = (Request) -> Response
+
+---
+
+(source_file
+  (type_alias
+    (identifier)
+    (function_type
+      (qualified_name (identifier))
+      (qualified_name (identifier)))))
+
+================
+Type alias generic
+================
+
+type UserList = List<User>
+
+---
+
+(source_file
+  (type_alias
+    (identifier)
+    (generic_type
+      (qualified_name (identifier))
+      (qualified_name (identifier)))))

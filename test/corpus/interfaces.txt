@@ -1,0 +1,64 @@
+================
+Interface with methods
+================
+
+interface Authenticator
+  fn login(creds: Credentials) -> Session
+  fn logout(session: Session)
+
+---
+
+(source_file
+  (interface_declaration
+    (identifier)
+    (function_declaration
+      (identifier)
+      (parameter (identifier) (qualified_name (identifier)))
+      (qualified_name (identifier)))
+    (function_declaration
+      (identifier)
+      (parameter (identifier) (qualified_name (identifier))))))
+
+================
+Generic interface
+================
+
+interface Store<K, V>
+  fn get(key: K) -> V?
+  fn set(key: K, value: V)
+  fn delete(key: K)
+
+---
+
+(source_file
+  (interface_declaration
+    (identifier)
+    (type_parameters (identifier) (identifier))
+    (function_declaration
+      (identifier)
+      (parameter (identifier) (qualified_name (identifier)))
+      (optional_type (qualified_name (identifier))))
+    (function_declaration
+      (identifier)
+      (parameter (identifier) (qualified_name (identifier)))
+      (parameter (identifier) (qualified_name (identifier))))
+    (function_declaration
+      (identifier)
+      (parameter (identifier) (qualified_name (identifier))))))
+
+================
+Interface extends interface
+================
+
+interface FileStore implements Store
+  fn flush()
+
+---
+
+(source_file
+  (interface_declaration
+    (identifier)
+    (implements_clause
+      (qualified_name (identifier)))
+    (function_declaration
+      (identifier))))

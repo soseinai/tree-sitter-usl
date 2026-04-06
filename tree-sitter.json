@@ -1,0 +1,25 @@
+{
+  "grammars": [
+    {
+      "name": "usl",
+      "camelcase": "USL",
+      "scope": "source.usl",
+      "path": ".",
+      "file-types": [
+        "usl"
+      ],
+      "injection-regex": "usl",
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for USL (Universal Structure Language)",
+    "authors": [],
+    "links": {
+      "repository": "https://github.com/tree-sitter/tree-sitter-usl"
+    }
+  }
+}

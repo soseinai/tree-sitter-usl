@@ -1,0 +1,68 @@
+================
+Entity with fields
+================
+
+entity User
+  id: Id
+  email: String
+  role: Role
+
+---
+
+(source_file
+  (entity_declaration
+    (identifier)
+    (field_declaration (identifier) (qualified_name (identifier)))
+    (field_declaration (identifier) (qualified_name (identifier)))
+    (field_declaration (identifier) (qualified_name (identifier)))))
+
+================
+Entity without body
+================
+
+entity JwtAuth implements Authenticator
+
+---
+
+(source_file
+  (entity_declaration
+    (identifier)
+    (implements_clause
+      (qualified_name (identifier)))))
+
+================
+Entity with type parameters
+================
+
+entity Repository<T>
+  fn find(id: Id) -> T?
+  fn save(item: T)
+
+---
+
+(source_file
+  (entity_declaration
+    (identifier)
+    (type_parameters (identifier))
+    (function_declaration
+      (identifier)
+      (parameter (identifier) (qualified_name (identifier)))
+      (optional_type (qualified_name (identifier))))
+    (function_declaration
+      (identifier)
+      (parameter (identifier) (qualified_name (identifier))))))
+
+================
+Entity implements multiple
+================
+
+entity JwtAuth implements Authenticator, Serializable
+
+---
+
+(source_file
+  (entity_declaration
+    (identifier)
+    (implements_clause
+      (qualified_name (identifier))
+      (qualified_name (identifier)))))

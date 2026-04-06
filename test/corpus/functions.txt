@@ -1,0 +1,55 @@
+================
+Function with named params
+================
+
+fn login(creds: Credentials) -> Session
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter (identifier) (qualified_name (identifier)))
+    (qualified_name (identifier))))
+
+================
+Function without param names
+================
+
+fn login(Credentials) -> Session
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter (qualified_name (identifier)))
+    (qualified_name (identifier))))
+
+================
+Function with no return type
+================
+
+fn logout(session: Session)
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter (identifier) (qualified_name (identifier)))))
+
+================
+Generic function
+================
+
+fn find_by_name<T>(name: String) -> T?
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (type_parameters (identifier))
+    (parameter (identifier) (qualified_name (identifier)))
+    (optional_type (qualified_name (identifier)))))

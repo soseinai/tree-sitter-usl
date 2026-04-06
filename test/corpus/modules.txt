@@ -1,0 +1,64 @@
+================
+Module with entities
+================
+
+module auth
+  entity User
+    id: Id
+    email: String
+
+  entity Session
+    token: String
+
+---
+
+(source_file
+  (module_declaration
+    (identifier)
+    (entity_declaration
+      (identifier)
+      (field_declaration (identifier) (qualified_name (identifier)))
+      (field_declaration (identifier) (qualified_name (identifier))))
+    (entity_declaration
+      (identifier)
+      (field_declaration (identifier) (qualified_name (identifier))))))
+
+================
+Import single
+================
+
+import auth.User
+
+---
+
+(source_file
+  (import_declaration
+    (qualified_name (identifier) (identifier))))
+
+================
+Import wildcard
+================
+
+import auth.*
+
+---
+
+(source_file
+  (import_declaration
+    (wildcard_import
+      (qualified_name (identifier)))))
+
+================
+Import selective
+================
+
+import billing.{ Invoice, Payment }
+
+---
+
+(source_file
+  (import_declaration
+    (selective_import
+      (qualified_name (identifier))
+      (identifier)
+      (identifier))))
