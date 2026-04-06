@@ -2,8 +2,7 @@
 
 # Generate parser from grammar.js
 generate:
-    npx tree-sitter generate --no-bindings
-
+    npx tree-sitter generate 
 # Run all tests
 test: generate
     npx tree-sitter test

@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: tree-sitter test
 
   binding-rust:
@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: cd bindings/rust && cargo build
       - run: cd bindings/rust && cargo test
 
@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: cd bindings/node && npm install
       - run: cd bindings/node && npx node-gyp rebuild
 
@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: cd bindings/python && pip install .
 
   binding-swift:
@@ -66,7 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: |
           cd bindings/swift
           ln -sf ../../src src

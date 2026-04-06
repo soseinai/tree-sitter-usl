@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: |
           mkdir -p dist
           cc -Isrc -std=c11 -fPIC -c src/parser.c -o dist/parser.o
@@ -43,7 +43,7 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: cd bindings/node && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: cd bindings/rust && cargo publish
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -70,7 +70,7 @@ jobs:
         with:
           python-version: "3.12"
       - uses: tree-sitter/setup-action/cli@v2
-      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter generate
       - run: pip install build twine
       - run: cd bindings/python && python -m build
       - run: cd bindings/python && twine upload dist/*
