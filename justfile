@@ -2,7 +2,7 @@
 
 # Generate parser from grammar.js
 generate:
-    npx tree-sitter generate
+    npx tree-sitter generate --no-bindings
 
 # Run all tests
 test: generate
@@ -29,15 +29,15 @@ bindings: generate binding-node binding-rust binding-python binding-go binding-s
 
 # Build Node.js binding
 binding-node:
-    npx node-gyp rebuild
+    cd bindings/node && npm install && npx node-gyp rebuild
 
 # Build Rust binding
 binding-rust:
-    cargo build
+    cd bindings/rust && cargo build
 
 # Build Python binding
 binding-python:
-    pip install -e .
+    cd bindings/python && pip install -e .
 
 # Build Go binding
 binding-go:
@@ -45,8 +45,11 @@ binding-go:
 
 # Build Swift binding
 binding-swift:
-    swift build
+    cd bindings/swift && swift build
 
 # Remove build artifacts
 clean:
     rm -rf build dist
+    rm -rf bindings/rust/target
+    rm -rf bindings/node/build
+    rm -rf bindings/swift/.build

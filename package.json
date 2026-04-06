@@ -1,34 +1,5 @@
 {
-  "name": "tree-sitter-usl",
-  "version": "0.1.0",
-  "description": "Tree-sitter grammar for USL (Universal Structure Language)",
-  "main": "bindings/node",
-  "types": "bindings/node",
-  "keywords": [
-    "parser",
-    "tree-sitter",
-    "usl"
-  ],
-  "files": [
-    "grammar.js",
-    "binding.gyp",
-    "prebuilds/**",
-    "bindings/node/*",
-    "queries/*",
-    "src/**"
-  ],
-  "dependencies": {
-    "node-addon-api": "^7.1.0",
-    "node-gyp-build": "^4.8.0"
-  },
-  "peerDependencies": {
-    "tree-sitter": "^0.21.0"
-  },
-  "peerDependenciesMeta": {
-    "tree_sitter": {
-      "optional": true
-    }
-  },
+  "private": true,
   "devDependencies": {
     "tree-sitter-cli": "^0.22.0",
     "prebuildify": "^6.0.0"
@@ -36,7 +7,6 @@
   "scripts": {
     "generate": "tree-sitter generate",
     "test": "tree-sitter test",
-    "parse": "tree-sitter parse",
     "install": "node-gyp-build",
     "prebuildify": "prebuildify --napi --strip"
   },
@@ -48,5 +18,25 @@
       ],
       "injection-regex": "usl"
     }
+  ],
+  "dependencies": {
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
+  },
+  "types": "bindings/node",
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
   ]
 }

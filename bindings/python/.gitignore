@@ -1,0 +1,6 @@
+dist/
+*.egg-info/
+*.whl
+*.so
+.venv/
+__pycache__/

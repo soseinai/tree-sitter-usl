@@ -77,8 +77,6 @@ void tree_sitter_usl_external_scanner_deserialize(void *payload,
   }
 }
 
-static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
-
 static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 bool tree_sitter_usl_external_scanner_scan(void *payload, TSLexer *lexer,

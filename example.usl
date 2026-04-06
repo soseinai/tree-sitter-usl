@@ -1,0 +1,53 @@
+package myapp
+
+extern uses auth-sdk
+
+import auth.User
+import billing.*
+import billing.{ Invoice, Payment }
+
+// Type aliases
+type UserId = Id
+type Handler = (Request) -> Response
+
+// Enums
+enum Role
+  Admin
+  Member
+  Guest
+
+enum Result<T, E>
+  Ok(T)
+  Err(E)
+
+// Interfaces
+interface Authenticator
+  fn login(creds: Credentials) -> Session
+  fn logout(session: Session)
+
+interface Store<K, V>
+  fn get(key: K) -> V?
+  fn set(key: K, value: V)
+
+// Entities
+entity User
+  id: UserId
+  email: String
+  role: Role
+
+entity Order implements Serializable
+  id: Id
+  user: User
+  items: List<Item>
+  fn total() -> Money
+
+// Standalone functions
+fn checkout(order: Order) -> Receipt
+
+// Modules
+module auth
+  entity Session
+    token: String
+    user: User
+
+  entity JwtAuth implements Authenticator

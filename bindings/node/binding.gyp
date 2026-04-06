@@ -6,12 +6,12 @@
         "<!(node -p \"require('node-addon-api').targets\"):node_addon_api_except",
       ],
       "include_dirs": [
-        "src",
+        "../../src",
       ],
       "sources": [
-        "bindings/node/binding.cc",
-        "src/parser.c",
-        "src/scanner.c",
+        "binding.cc",
+        "../../src/parser.c",
+        "../../src/scanner.c",
       ],
       "conditions": [
         ["OS!='win'", {

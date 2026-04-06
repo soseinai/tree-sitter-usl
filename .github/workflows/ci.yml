@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - queries/**
+      - bindings/**
+  pull_request:
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - queries/**
+      - bindings/**
+
+jobs:
+  test:
+    name: Parser tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tree-sitter/setup-action/cli@v2
+      - run: tree-sitter generate --no-bindings
+      - run: tree-sitter test
+
+  binding-rust:
+    name: Rust binding
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tree-sitter/setup-action/cli@v2
+      - run: tree-sitter generate --no-bindings
+      - run: cd bindings/rust && cargo build
+      - run: cd bindings/rust && cargo test
+
+  binding-node:
+    name: Node.js binding
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tree-sitter/setup-action/cli@v2
+      - run: tree-sitter generate --no-bindings
+      - run: cd bindings/node && npm install
+      - run: cd bindings/node && npx node-gyp rebuild
+
+  binding-python:
+    name: Python binding
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tree-sitter/setup-action/cli@v2
+      - run: tree-sitter generate --no-bindings
+      - run: cd bindings/python && pip install .
+
+  binding-swift:
+    name: Swift binding
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tree-sitter/setup-action/cli@v2
+      - run: tree-sitter generate --no-bindings
+      - run: |
+          cd bindings/swift
+          ln -sf ../../src src
+          ln -sf ../../queries queries
+          swift build

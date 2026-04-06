@@ -10,11 +10,10 @@ repository = "https://github.com/tree-sitter/tree-sitter-usl"
 edition = "2021"
 autoexamples = false
 
-build = "bindings/rust/build.rs"
-include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
+build = "build.rs"
 
 [lib]
-path = "bindings/rust/lib.rs"
+path = "lib.rs"
 
 [dependencies]
 tree-sitter = ">=0.22.6"

@@ -8,9 +8,10 @@ from wheel.bdist_wheel import bdist_wheel
 
 class Build(build):
     def run(self):
-        if isdir("queries"):
+        queries_dir = join("..", "..", "queries")
+        if isdir(queries_dir):
             dest = join(self.build_lib, "tree_sitter_usl", "queries")
-            self.copy_tree("queries", dest)
+            self.copy_tree(queries_dir, dest)
         super().run()
 
 
@@ -23,8 +24,8 @@ class BdistWheel(bdist_wheel):
 
 
 setup(
-    packages=find_packages("bindings/python"),
-    package_dir={"": "bindings/python"},
+    packages=find_packages("."),
+    package_dir={"": "."},
     package_data={
         "tree_sitter_usl": ["*.pyi", "py.typed"],
         "tree_sitter_usl.queries": ["*.scm"],
@@ -34,9 +35,9 @@ setup(
         Extension(
             name="_binding",
             sources=[
-                "bindings/python/tree_sitter_usl/binding.c",
-                "src/parser.c",
-                "src/scanner.c",
+                "tree_sitter_usl/binding.c",
+                "../../src/parser.c",
+                "../../src/scanner.c",
             ],
             extra_compile_args=[
                 "-std=c11",
@@ -48,7 +49,7 @@ setup(
                 ("Py_LIMITED_API", "0x03080000"),
                 ("PY_SSIZE_T_CLEAN", None)
             ],
-            include_dirs=["src"],
+            include_dirs=["../../src"],
             py_limited_api=True,
         )
     ],
