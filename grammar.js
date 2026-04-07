@@ -22,6 +22,37 @@ module.exports = grammar({
     source_file: ($) => repeat($._declaration),
 
     // -----------------------------------------------------------
+    // Annotations
+    // -----------------------------------------------------------
+    annotation: ($) =>
+      seq(
+        "@",
+        field("name", $.identifier),
+        optional(seq("(", commaSep1($._annotation_argument), ")")),
+        $._newline,
+      ),
+
+    _annotation_argument: ($) =>
+      choice(
+        $.named_argument,
+        $._literal,
+      ),
+
+    named_argument: ($) =>
+      seq(field("name", $.identifier), ":", field("value", $._literal)),
+
+    _literal: ($) =>
+      choice(
+        $.string_literal,
+        $.number_literal,
+        $.boolean_literal,
+      ),
+
+    string_literal: (_) => /"[^"]*"/,
+    number_literal: (_) => /\d+(\.\d+)?/,
+    boolean_literal: (_) => choice("true", "false"),
+
+    // -----------------------------------------------------------
     // Top-level declarations
     // -----------------------------------------------------------
     _declaration: ($) =>
@@ -97,6 +128,7 @@ module.exports = grammar({
     // -----------------------------------------------------------
     entity_declaration: ($) =>
       seq(
+        repeat($.annotation),
         "entity",
         field("name", $.identifier),
         optional($.type_parameters),
@@ -113,6 +145,7 @@ module.exports = grammar({
     // -----------------------------------------------------------
     interface_declaration: ($) =>
       seq(
+        repeat($.annotation),
         "interface",
         field("name", $.identifier),
         optional($.type_parameters),
@@ -130,6 +163,7 @@ module.exports = grammar({
     // -----------------------------------------------------------
     enum_declaration: ($) =>
       seq(
+        repeat($.annotation),
         "enum",
         field("name", $.identifier),
         optional($.type_parameters),
@@ -141,6 +175,7 @@ module.exports = grammar({
 
     enum_variant: ($) =>
       seq(
+        repeat($.annotation),
         field("name", $.identifier),
         optional(seq("(", commaSep1($._variant_field), ")")),
         $._newline,
@@ -157,6 +192,7 @@ module.exports = grammar({
     // -----------------------------------------------------------
     function_declaration: ($) =>
       seq(
+        repeat($.annotation),
         "fn",
         field("name", $.identifier),
         optional($.type_parameters),
@@ -169,7 +205,7 @@ module.exports = grammar({
     // type Name = TargetType
     // -----------------------------------------------------------
     type_alias: ($) =>
-      seq("type", field("name", $.identifier), "=", field("value", $._type), $._newline),
+      seq(repeat($.annotation), "type", field("name", $.identifier), "=", field("value", $._type), $._newline),
 
     // -----------------------------------------------------------
     // Shared constructs
@@ -190,7 +226,7 @@ module.exports = grammar({
     _method: ($) => $.function_declaration,
 
     field_declaration: ($) =>
-      seq(field("name", $.identifier), ":", field("type", $._type), $._newline),
+      seq(repeat($.annotation), field("name", $.identifier), ":", field("type", $._type), $._newline),
 
     field: ($) => seq(field("name", $.identifier), ":", field("type", $._type)),
 
@@ -234,12 +270,6 @@ module.exports = grammar({
     // -----------------------------------------------------------
     // Comments
     // -----------------------------------------------------------
-    comment: (_) =>
-      token(
-        choice(
-          seq("//", /.*/),
-          seq("///", /.*/),
-        ),
-      ),
+    comment: (_) => token(seq("//", /.*/)),
   },
 });

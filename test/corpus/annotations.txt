@@ -1,0 +1,204 @@
+=====================================
+Annotation without arguments
+=====================================
+
+@deprecated
+entity Foo
+  name: String
+
+---
+
+(source_file
+  (entity_declaration
+    (annotation
+      name: (identifier))
+    name: (identifier)
+    (field_declaration
+      name: (identifier)
+      type: (qualified_name
+        (identifier)))))
+
+=====================================
+Annotation with string argument
+=====================================
+
+@source("file.java:42")
+entity User
+  name: String
+
+---
+
+(source_file
+  (entity_declaration
+    (annotation
+      name: (identifier)
+      (string_literal))
+    name: (identifier)
+    (field_declaration
+      name: (identifier)
+      type: (qualified_name
+        (identifier)))))
+
+=====================================
+Annotation with named arguments
+=====================================
+
+@source(file: "User.java", line: 42)
+entity User
+  name: String
+
+---
+
+(source_file
+  (entity_declaration
+    (annotation
+      name: (identifier)
+      (named_argument
+        name: (identifier)
+        value: (string_literal))
+      (named_argument
+        name: (identifier)
+        value: (number_literal)))
+    name: (identifier)
+    (field_declaration
+      name: (identifier)
+      type: (qualified_name
+        (identifier)))))
+
+=====================================
+Multiple annotations
+=====================================
+
+@source("User.java:10")
+@deprecated
+entity User
+  name: String
+
+---
+
+(source_file
+  (entity_declaration
+    (annotation
+      name: (identifier)
+      (string_literal))
+    (annotation
+      name: (identifier))
+    name: (identifier)
+    (field_declaration
+      name: (identifier)
+      type: (qualified_name
+        (identifier)))))
+
+=====================================
+Annotation on field
+=====================================
+
+entity User
+  @source("User.java:12")
+  name: String
+
+---
+
+(source_file
+  (entity_declaration
+    name: (identifier)
+    (field_declaration
+      (annotation
+        name: (identifier)
+        (string_literal))
+      name: (identifier)
+      type: (qualified_name
+        (identifier)))))
+
+=====================================
+Annotation on function
+=====================================
+
+@deprecated
+fn greet(name: String) -> String
+
+---
+
+(source_file
+  (function_declaration
+    (annotation
+      name: (identifier))
+    name: (identifier)
+    (parameter
+      name: (identifier)
+      type: (qualified_name
+        (identifier)))
+    (qualified_name
+      (identifier))))
+
+=====================================
+Annotation on interface
+=====================================
+
+@source("Greeter.java:1")
+interface Greeter
+  fn greet(name: String) -> String
+
+---
+
+(source_file
+  (interface_declaration
+    (annotation
+      name: (identifier)
+      (string_literal))
+    name: (identifier)
+    (function_declaration
+      name: (identifier)
+      (parameter
+        name: (identifier)
+        type: (qualified_name
+          (identifier)))
+      (qualified_name
+        (identifier)))))
+
+=====================================
+Annotation on enum and variant
+=====================================
+
+@source("Color.java:1")
+enum Color
+  @source("Color.java:2")
+  Red
+  Green
+  Blue
+
+---
+
+(source_file
+  (enum_declaration
+    (annotation
+      name: (identifier)
+      (string_literal))
+    name: (identifier)
+    (enum_variant
+      (annotation
+        name: (identifier)
+        (string_literal))
+      name: (identifier))
+    (enum_variant
+      name: (identifier))
+    (enum_variant
+      name: (identifier))))
+
+=====================================
+Annotation with boolean argument
+=====================================
+
+@feature(false)
+fn experimental() -> String
+
+---
+
+(source_file
+  (function_declaration
+    (annotation
+      name: (identifier)
+      (boolean_literal))
+    name: (identifier)
+    (qualified_name
+      (identifier))))
